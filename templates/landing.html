@@ -1,0 +1,16 @@
+{# templates/landing.html #}
+{% extends 'base.html' %}
+
+{% block title %}Job Portal Landing Page{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h1 class="mb-4">Welcome to the Job Portal</h1>
+    <p class="lead">Find your dream job or hire the best talent</p>
+
+    <div class="mt-4">
+        <a href="/login" class="btn btn-primary btn-lg mx-2">Login</a>
+        <a href="/register" class="btn btn-success btn-lg mx-2">Register</a>
+    </div>
+</div>
+{% endblock %}

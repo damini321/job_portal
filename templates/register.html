@@ -1,0 +1,51 @@
+{# templates/register.html #}
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="page-content">
+<div class="form-box">
+    <h2>Register</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="username">Username:</label>
+            <input type="text" name="username" class="form-control" id="username" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email">Email:</label>
+            <input type="email" name="email" class="form-control" id="email" required>
+        </div>
+
+        <div class="mb-3 position-relative">
+            <label for="password">Password :</label>
+            <input type="password" name="password" class="form-control" id="password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="role">Role:</label>
+            <select name="role" id="role" class="form-control" required>
+                <option value="">-- Select Role --</option>
+                <option value="seeker">Job Seeker</option>
+                <option value="employer">Employer</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3 w-100">Register</button>
+
+        <p class="bottom-text text-center mt-3">
+            Already have an account? <a href="/login"><span>Login</span></a>
+        </p>
+    </form>
+</div>
+</div>
+
+<script>
+function togglePassword() {
+    const pwd = document.getElementById('password');
+    pwd.type = pwd.type === 'password' ? 'text' : 'password';
+}
+</script>
+{% endblock %}

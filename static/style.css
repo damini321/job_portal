@@ -1,0 +1,133 @@
+/* static/style.css */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-box {
+    background: #ffffff;
+    padding: 40px;
+    max-width: 400px;
+    margin: 80px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.form-box h2 {
+    margin-bottom: 30px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.form-box label {
+    font-weight: 500;
+}
+
+input.form-control {
+    background-color: #edf3ff;
+}
+
+.toggle-password {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 38px;
+    color: teal;
+}
+
+.links {
+    margin-top: 10px;
+}
+
+.links a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+button.btn-primary {
+    background-color: #005eff;
+    border: none;
+    font-weight: bold;
+}
+
+.bottom-text {
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.bottom-text span {
+    color: red;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+.glow-nav {
+            background: linear-gradient(90deg, #005eff, #00c6ff);
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+        }
+
+        .glow-nav a {
+            color: white !important;
+            font-weight: bold;
+        }
+
+        footer {
+            background: linear-gradient(90deg, #000428, #004e92);
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 40px;
+
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            
+        }
+
+        footer a {
+            color: #ffce00;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* stop scrolling */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-box {
+            width: 100%;
+            max-width: 500px;
+        }
+        .page-content {
+            margin: 0 0;
+            padding: 0 0;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
