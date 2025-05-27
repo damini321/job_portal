@@ -24,20 +24,29 @@ cd job_portal
 
 2. Create a virtual environment and activate it:
 
+```bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 venv\Scripts\activate     # Windows
+```
 
 3. Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
 4. Create a .env file in the project root and add the following variables:
+   ```
    SECRET_KEY=your-secret-key
    DATABASE_URL=postgresql://username:password@localhost:5432/dbname
+   ```
 
 5. Run the application:
+   
+   ```bash
    flask run
+   ```
 
 ### Usage
 - Register as a job seeker or employer
