@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Applicants for {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <h1>Applicants for: {{ job.title }}</h1>
+
+    {% if applicants %}
+    <ul class="list-group">
+        {% for app in applicants %}
+        <li class="list-group-item">
+            <strong>{{ app.seeker.username }}</strong> ({{ app.seeker.email }})<br>
+            <p><strong>Cover Letter:</strong> {{ app.cover_letter }}</p>
+            {% if app.resume_path %}
+            <a href="{{ url_for('static', filename=app.resume_path) }}" target="_blank" class="btn btn-outline-primary btn-sm">View Resume</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No applicants for this job yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('employer_dashboard') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+{% endblock %}

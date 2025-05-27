@@ -113,7 +113,7 @@ button.btn-primary {
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* stop scrolling */
+             /* stop scrolling overflow: hidden;*/
             display: flex;
             flex-direction: column;
         }

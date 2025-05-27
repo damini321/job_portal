@@ -5,11 +5,6 @@ from models import db, User, UserRole
 
 auth = Blueprint('auth', __name__)
 
-
-# @auth.route('/')
-# def landing():
-#     return render_template('landing.html')
-
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':

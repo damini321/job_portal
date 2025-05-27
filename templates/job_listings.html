@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Listings{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <h1>All Jobs</h1>
+
+    {# Flash message for application success only #}
+    {% with messages = get_flashed_messages(category_filter=['apply_success']) %}
+        {% if messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% for job in jobs %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ job.title }}</h5>
+            <p class="card-text"><strong>Company:</strong> {{ job.employer.name }}</p>
+            <p class="card-text"><strong>Location:</strong> {{ job.location }}</p>
+
+            {% if role == 'seeker' %}
+            <a href="{{ url_for('apply_job', job_id=job.id) }}" class="btn btn-success">Apply for Job</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
