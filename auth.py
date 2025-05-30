@@ -53,7 +53,7 @@ def login():
         session['user_id'] = user.id
         session['role'] = user.role.value
         session['username'] = user.username
-        session['user_email'] = user.email 
+        session['email'] = user.email
         flash('Login successful!')
 
         # Redirect based on role

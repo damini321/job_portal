@@ -4,20 +4,80 @@
 
 {% block content %}
 <div class="container py-3">
-    <h1>Welcome Job Seeker, {{ session['username'] }}</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Welcome Job Seeker, {{ session['username'] }}</h1>
+        <a href="{{ url_for('profile') }}" class="btn btn-outline-primary">View Profile</a>
+    </div>
 
-    <h2>Your Applied Jobs</h2>
-    {% if applications %}
-    <ul class="list-group">
-        {% for app in applications %}
+    <!-- ✅ Search Form -->
+    <form method="get" action="{{ url_for('seeker_dashboard') }}" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search jobs by title, skills, or company name"
+                value="{{ search_query }}">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    {% if search_query %}
+    <p class="text-muted">Showing results for "<strong>{{ search_query }}</strong>" ({{ pagination.total }} found)</p>
+    {% endif %}
+
+    <!-- ✅ Search Results -->
+    {% if jobs %}
+    <ul class="list-group mb-4">
+        {% for job in jobs %}
         <li class="list-group-item">
-            <strong>{{ app.job.title }}</strong> {{ app.job.employer.name }}<br>
-            Applied on: {{ app.applied_at.strftime('%Y-%m-%d') }}
+            <strong>{{ job.title }}</strong> at {{ job.employer.name }}<br>
+            Location: {{ job.location }}<br>
+
+            {% if job.is_closed %}
+                <p class="text-danger mt-2"><strong>This job is closed.</strong></p>
+            {% else %}
+                <form method="post" action="{{ url_for('apply_job', job_id=job.id) }}" class="mt-2">
+                    <button class="btn btn-success btn-sm" type="submit">Apply</button>
+                </form>
+            {% endif %}
         </li>
         {% endfor %}
     </ul>
-    {% else %}
-    <p>You have not applied to any jobs yet.</p>
+
+    <!-- ✅ Pagination -->
+    <nav aria-label="Job Pagination">
+        <ul class="pagination">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="{{ url_for('seeker_dashboard', page=pagination.prev_num, q=search_query) }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% for page_num in pagination.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=2) %}
+            {% if page_num %}
+            {% if page_num == pagination.page %}
+            <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link"
+                    href="{{ url_for('seeker_dashboard', page=page_num, q=search_query) }}">{{ page_num }}</a></li>
+            {% endif %}
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="{{ url_for('seeker_dashboard', page=pagination.next_num, q=search_query) }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% elif search_query %}
+    <p>No jobs found for "<strong>{{ search_query }}</strong>".</p>
     {% endif %}
 </div>
 {% endblock %}

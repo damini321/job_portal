@@ -9,12 +9,51 @@
     {% if applicants %}
     <ul class="list-group">
         {% for app in applicants %}
-        <li class="list-group-item">
-            <strong>{{ app.seeker.username }}</strong> ({{ app.seeker.email }})<br>
-            <p><strong>Cover Letter:</strong> {{ app.cover_letter }}</p>
-            {% if app.resume_path %}
-            <a href="{{ url_for('static', filename=app.resume_path) }}" target="_blank" class="btn btn-outline-primary btn-sm">View Resume</a>
-            {% endif %}
+        <li class="list-group-item d-flex justify-content-between align-items-start flex-wrap">
+            <div class="me-auto">
+                <strong>{{ app.seeker.username }}</strong> ({{ app.seeker.email }})<br>
+                <p><strong>Cover Letter:</strong> {{ app.cover_letter }}</p>
+
+                {% if app.resume_path %}
+                <a href="{{ url_for('static', filename=app.resume_path) }}" target="_blank" class="btn btn-outline-primary btn-sm">View Resume</a>
+                {% endif %}
+
+                <!-- Status Display -->
+                <p class="mt-2">
+                    <strong>Status:</strong>
+                    <span class="badge 
+                        {% if app.status == 'Accepted' %}
+                            bg-success
+                        {% elif app.status == 'Rejected' %}
+                            bg-danger
+                        {% elif app.status == 'Reviewed' %}
+                            bg-info text-dark
+                        {% else %}
+                            bg-secondary
+                        {% endif %}
+                    ">
+                        {{ app.status }}
+                    </span>
+                </p>
+
+                <!-- Status Update Form -->
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="application_id" value="{{ app.id }}">
+                    <select name="status" required>
+                        <option value="" disabled selected>Change status</option>
+                        <option value="Reviewed">Reviewed</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                </form>
+            </div>
+
+            <!-- Delete Form -->
+            <form method="POST" action="{{ url_for('delete_application', application_id=app.id) }}" 
+                  onsubmit="return confirm('Are you sure you want to delete this application?');">
+                <button type="submit" class="btn btn-danger btn-sm mt-2">Delete</button>
+            </form>
         </li>
         {% endfor %}
     </ul>

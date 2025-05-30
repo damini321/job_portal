@@ -15,6 +15,13 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     role = db.Column(Enum(UserRole), nullable=False)
 
+    # Seeker-specific fields (nullable=True so employers can ignore)
+    resume = db.Column(db.String(255), nullable=True)
+    experience = db.Column(db.Text, nullable=True)
+    profile_pic = db.Column(db.String(100), nullable=True, default='default.jpg')
+    # Employer-specific fields (optional)
+    company_name = db.Column(db.String(150), nullable=True)
+    
 class JobType(enum.Enum):
     Fulltime = "Full-time"
     Parttime = "Part-time"
@@ -31,15 +38,24 @@ class Job(db.Model):
 
     employer = db.relationship('User', backref='jobs')
 
+    is_closed = db.Column(db.Boolean, default=False)
+
+class ApplicationStatus(enum.Enum):
+    Pending = "Pending"
+    Reviewed = "Reviewed"
+    Accepted = "Accepted"
+    Rejected = "Rejected"
 
 class JobApplication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    cover_letter = db.Column(db.Text, nullable=False)
+    cover_letter = db.Column(db.Text, nullable=True)
     resume_path = db.Column(db.String(200))
     seeker_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
     applied_at = db.Column(db.DateTime, server_default=db.func.now())
+    status = db.Column(Enum(ApplicationStatus), default=ApplicationStatus.Pending)
 
     seeker = db.relationship('User', backref='applications')
     job = db.relationship('Job', backref='applications')
+
 

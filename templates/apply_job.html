@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="form-box">
-    <h2>Apply for {{ job.title }} at {{ job.employer.name }}</h2>
+    <h2>Apply for {{ job.title }} {{ job.employer.name }}</h2>
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="cover_letter" class="form-label">Cover Letter</label>

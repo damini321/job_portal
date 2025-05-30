@@ -4,10 +4,13 @@
 
 {% block content %}
 <div class="container py-3">
-    <h1>Welcome Employer, {{ session['username'] }}</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Welcome Employer, {{ session['username'] }}</h1>
+        <a href="{{ url_for('profile') }}" class="btn btn-outline-primary">Company Profile</a>
+    </div>
 
     {% if jobs %}
-    <h2>Your Posted Jobs</h2>
+    <p class="text-muted">You have posted {{ pagination.total }} jobs.</p>
     <ul class="list-group">
         {% for job in jobs %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -15,10 +18,55 @@
                 <strong>{{ job.title }}</strong> - {{ job.location }}<br>
                 Applicants: {{ job.applications|length }}
             </div>
-            <a href="{{ url_for('view_applicants', job_id=job.id) }}" class="btn btn-primary btn-sm">View Applicants</a>
+            <div class="d-flex gap-2 align-items-center">
+                <a href="{{ url_for('edit_job', job_id=job.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ url_for('view_applicants', job_id=job.id) }}" class="btn btn-primary btn-sm">View
+                    Applicants</a>
+
+                <form method="post" action="{{ url_for('close_job', job_id=job.id) }}" style="margin:0;">
+                    <button type="submit" class="btn btn-danger btn-sm" {% if job.is_closed %}disabled{% endif %}>
+                        {% if job.is_closed %}Closed{% else %}Mark as Closed{% endif %}
+                    </button>
+                </form>
+            </div>
         </li>
+
         {% endfor %}
     </ul>
+
+    <!-- ✅ Pagination -->
+    <nav aria-label="Job Pagination">
+        <ul class="pagination mt-3">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('employer_dashboard', page=pagination.prev_num) }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% for page_num in pagination.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=2) %}
+            {% if page_num %}
+            {% if page_num == pagination.page %}
+            <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('employer_dashboard', page=page_num) }}">{{
+                    page_num }}</a></li>
+            {% endif %}
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('employer_dashboard', page=pagination.next_num) }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
     {% else %}
     <p>You have not posted any jobs yet.</p>
     {% endif %}

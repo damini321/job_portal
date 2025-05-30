@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Seeker Profile{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Role:</strong> {{ user.role.value }}</p>
+
+    {% if user.profile_pic %}
+        <img src="{{ url_for('static', filename='uploads/' + user.profile_pic) }}" alt="Profile Picture" width="150" class="img-thumbnail mb-3">
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data" class="mb-4">
+        <div class="mb-3">
+            <label for="profile_pic" class="form-label">Upload Profile Picture:</label>
+            <input type="file" name="profile_pic" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="resume" class="form-label">Upload/Update Resume (PDF only):</label>
+            <input type="file" name="resume" class="form-control" accept="application/pdf">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+
+    <hr>
+    <h3>Applied Jobs</h3>
+    {% if applications %}
+        <ul class="list-group">
+            {% for app in applications %}
+            <li class="list-group-item">
+                <strong>{{ app.job.title }}</strong> at {{ app.job.employer.name }}<br>
+                Applied on: {{ app.applied_at.strftime('%Y-%m-%d') }}<br>
+                Status: <span class="badge bg-info text-dark">{{ app.status.value }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't applied to any jobs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

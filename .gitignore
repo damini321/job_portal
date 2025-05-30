@@ -7,3 +7,5 @@ instance/
 venv/
 .env/
 static/uploads/
+migrations/
+version/

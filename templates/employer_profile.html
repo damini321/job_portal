@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Employer Profile{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Role:</strong> {{ user.role.value }}</p>
+
+    <hr>
+
+    <h3>Your Posted Jobs</h3>
+    {% if jobs %}
+    <ul class="list-group">
+        {% for job in jobs %}
+        <li class="list-group-item">
+            <strong>{{ job.title }}</strong> - {{ job.location }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You haven't posted any jobs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

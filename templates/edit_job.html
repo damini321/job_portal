@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Edit Job{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2>Edit Job - {{ job.title }}</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" value="{{ job.title }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4" required>{{ job.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control" value="{{ job.location }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">Update Job</button>
+        <a href="{{ url_for('employer_dashboard') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

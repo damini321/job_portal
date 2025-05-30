@@ -22,25 +22,29 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
+                
                 <!-- inside base.html -->
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-
                     {% if not session.get('user_id') %}
-                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('landing') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
-
+                    <li class="nav-item">
+                        {% if session['role'] == 'employer' %}
+                        <a class="nav-link" href="{{ url_for('employer_dashboard') }}">Dashboard</a>
+                        {% else %}
+                        <a class="nav-link" href="{{ url_for('seeker_dashboard') }}">Dashboard</a>
+                        {% endif %}
+                    </li>
                     {% if session['role'] == 'employer' %}
-                    <li class="nav-item"><a class="nav-link" href="/post-job">Post a Job</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="/view_applicants" , job_id=job.id>View Applicants</a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('post_job') }}">Post a Job</a></li>
                     {% elif session['role'] == 'seeker' %}
-                    <li class="nav-item"><a class="nav-link" href="/job-listings"> Apply for Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">View Profile</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
                     {% endif %}
 
-                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-                    {% endif %}
                 </ul>
 
             </div>
